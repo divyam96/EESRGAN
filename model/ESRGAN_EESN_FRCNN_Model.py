@@ -12,6 +12,9 @@ from torch.nn.parallel import DataParallel, DistributedDataParallel
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from detection.engine import train_one_epoch, evaluate, evaluate_save
 from detection.utils import reduce_dict
+import time
+import numpy as np
+import sys
 
 
 logger = logging.getLogger('base')
@@ -194,7 +197,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
             l_g_total += l_e_charbonnier
 
             l_g_total.backward(retain_graph=True)
-            self.optimizer_G.step()
+            # self.optimizer_G.step()
 
         #descriminator
         for p in self.netD.parameters():
@@ -241,6 +244,7 @@ class ESRGAN_EESN_FRCNN_Model(BaseModel):
         loss_value = losses_reduced.item()
 
         losses.backward()
+        self.optimizer_G.step()
         self.optimizer_FRCNN.step()
 
         # set log

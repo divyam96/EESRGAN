@@ -279,7 +279,7 @@ class ResidualDenseBlock_5C(nn.Module):
         self.conv3 = nn.Conv2d(nf + 2 * gc, gc, 3, 1, 1, bias=bias)
         self.conv4 = nn.Conv2d(nf + 3 * gc, gc, 3, 1, 1, bias=bias)
         self.conv5 = nn.Conv2d(nf + 4 * gc, nf, 3, 1, 1, bias=bias)
-        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
+        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=False)
 
         # initialization
         mutil.initialize_weights([self.conv1, self.conv2, self.conv3, self.conv4, self.conv5], 0.1)
@@ -323,7 +323,7 @@ class RRDBNet(nn.Module):
         self.HRconv = nn.Conv2d(nf, nf, 3, 1, 1, bias=True)
         self.conv_last = nn.Conv2d(nf, out_nc, 3, 1, 1, bias=True)
 
-        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
+        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=False)
 
     def forward(self, x):
         fea = self.conv_first(x)
@@ -372,7 +372,7 @@ class Discriminator_VGG_128(nn.Module):
         self.linear2 = nn.Linear(100, 1)
 
         # activation function
-        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
+        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=False)
 
     def forward(self, x):
         fea = self.lrelu(self.conv0_0(x))
@@ -445,7 +445,7 @@ class BeginEdgeConv(nn.Module):
         self.conv_layer4 = nn.Conv2d(128, 128, 3, 1, 1, bias=True)
         self.conv_layer5 = nn.Conv2d(128, 256, 3, 2, 1, bias=True)
         self.conv_layer6 = nn.Conv2d(256, 64, 3, 1, 1, bias=True)
-        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
+        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=False)
 
         # initialization
         mutil.initialize_weights([self.conv_layer1, self.conv_layer2, self.conv_layer3,
@@ -479,7 +479,7 @@ class EESNRRDBNet(nn.Module):
         self.HRconv = nn.Conv2d(nf, nf, 3, 1, 1, bias=True)
         self.conv_last = nn.Conv2d(nf, out_nc, 3, 1, 1, bias=True)
 
-        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
+        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=False)
 
     def forward(self, x):
         fea = self.conv_first(x)
@@ -502,7 +502,7 @@ class MaskConv(nn.Module):
         self.conv_layer1 = nn.Conv2d(64, 64, 3, 1, 1, bias=True)
         self.conv_layer2 = nn.Conv2d(64, 128, 3, 1, 1, bias=True)
         self.conv_layer3 = nn.Conv2d(128, 256, 3, 1, 1, bias=True)
-        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
+        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=False)
 
         # initialization
         mutil.initialize_weights([self.conv_layer1, self.conv_layer2, self.conv_layer3], 0.1)
@@ -526,7 +526,7 @@ class FinalConv(nn.Module):
         self.upconv2 = nn.Conv2d(128, 128, 3, 1, 1, bias=True)
         self.HRconv = nn.Conv2d(128, 64, 3, 1, 1, bias=True)
         self.conv_last = nn.Conv2d(64, 3, 3, 1, 1, bias=True)
-        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
+        self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=False)
 
     def forward(self, x):
         x = self.lrelu(self.upconv1(F.interpolate(x, scale_factor=2, mode='nearest')))
